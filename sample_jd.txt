@@ -1,0 +1,23 @@
+Senior Python Engineer – Machine Learning Platform
+
+We are looking for a Senior Python Engineer with 5+ years of experience to join our ML platform team.
+
+Requirements:
+- 5+ years of Python development experience
+- Strong experience with FastAPI or similar web frameworks
+- AWS deployment experience (EC2, S3, Lambda, or SageMaker)
+- Machine Learning experience — building and deploying ML models
+- Docker and Kubernetes for containerization
+- PostgreSQL or MongoDB for data storage
+- Experience with CI/CD pipelines
+
+Nice to have:
+- TensorFlow or PyTorch experience
+- Data pipeline tools (Airflow, Spark)
+- Leadership or mentoring experience
+
+Responsibilities:
+- Design and build ML inference APIs using FastAPI
+- Manage ML model lifecycle on AWS SageMaker
+- Collaborate with data scientists to productionize models
+- Optimize system performance and reliability

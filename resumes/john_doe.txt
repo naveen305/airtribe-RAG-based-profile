@@ -1,0 +1,41 @@
+John Doe
+john.doe@email.com | +1 (555) 123-4567 | linkedin.com/in/johndoe
+
+PROFESSIONAL SUMMARY
+Senior Python Engineer with 7 years of experience building scalable backend systems and machine learning pipelines. Deep expertise in FastAPI, AWS, and data engineering. Passionate about clean code and production-grade ML deployment.
+
+TECHNICAL SKILLS
+Languages: Python, Go, SQL
+Frameworks: FastAPI, Django, Flask
+Cloud: AWS (EC2, S3, Lambda, SageMaker), Docker, Kubernetes
+Machine Learning: TensorFlow, PyTorch, Scikit-learn, Pandas, NumPy
+Databases: PostgreSQL, MongoDB, Redis, Elasticsearch
+Tools: Git, CI/CD, Terraform, Airflow
+
+PROFESSIONAL EXPERIENCE
+Senior Python Engineer — TechCorp Inc. (2021 – Present)
+- Built ML pipelines using Python and AWS SageMaker to serve 10M+ daily predictions
+- Designed and maintained FastAPI microservices handling 50k req/s
+- Reduced model inference latency by 40% using Redis caching and batch inference
+- Led a team of 4 engineers, introduced CI/CD best practices
+
+Backend Engineer — DataStack (2019 – 2021)
+- Developed REST APIs with Django and PostgreSQL for a B2B analytics platform
+- Migrated monolith to microservices architecture on Kubernetes
+- Built real-time data ingestion pipeline using Kafka and Spark
+
+Junior Developer — Startup XYZ (2017 – 2019)
+- Python scripting for data analysis and automation
+- Built internal dashboards with React and PostgreSQL
+
+EDUCATION
+Bachelor of Technology in Computer Science
+Indian Institute of Technology Delhi — 2017
+
+CERTIFICATIONS
+AWS Certified Solutions Architect – Professional
+Google Cloud Professional Data Engineer
+
+PROJECTS
+Open-source Resume Parser: Python, spaCy, FastAPI — 800+ GitHub stars
+ML Feature Store: Built a lightweight feature store using Redis and PostgreSQL
