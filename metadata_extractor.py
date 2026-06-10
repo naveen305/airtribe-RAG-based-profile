@@ -8,14 +8,26 @@ from typing import Any, Dict, List, Optional
 logger = logging.getLogger(__name__)
 
 SKILL_KEYWORDS: List[str] = [
+    # Languages
     "Python", "Java", "JavaScript", "TypeScript", "Go", "Rust", "C++", "C#", "Ruby", "PHP",
-    "React", "Vue", "Angular", "Node.js", "Django", "Flask", "FastAPI", "Spring", "Rails",
+    "HTML5", "CSS3", "HTML", "CSS",
+    # Frontend
+    "React", "Vue", "Angular", "jQuery", "Bootstrap", "Redux", "Next.js", "Gatsby",
+    # Backend
+    "Node.js", "Django", "Flask", "FastAPI", "Spring", "Rails", "Express",
+    # Cloud & DevOps
     "AWS", "Azure", "GCP", "Docker", "Kubernetes", "Terraform", "CI/CD", "Jenkins",
+    # ML / AI
     "Machine Learning", "Deep Learning", "NLP", "Computer Vision", "TensorFlow", "PyTorch",
+    "Artificial Intelligence",
+    # Data
     "SQL", "PostgreSQL", "MySQL", "MongoDB", "Redis", "Elasticsearch", "Kafka",
+    "Pandas", "NumPy", "Scikit-learn", "Spark", "Hadoop", "Airflow", "dbt",
+    "Tableau", "Power BI", "Data Science", "Data Analysis", "Statistics",
+    # Tools & practices
     "Git", "Linux", "REST", "GraphQL", "Microservices", "Agile", "Scrum",
-    "Data Science", "Data Analysis", "Statistics", "Pandas", "NumPy", "Scikit-learn",
-    "Spark", "Hadoop", "Airflow", "dbt", "Tableau", "Power BI",
+    # Marketing automation (common in mixed-role resumes)
+    "Eloqua", "Marketo",
 ]
 
 SKILL_SYNONYMS: Dict[str, str] = {
@@ -50,6 +62,8 @@ class MetadataExtractor:
         ]
 
     def extract(self, text: str, source_file: str) -> Dict[str, Any]:
+        # Collapse multiple spaces/tabs to single space (common in PDFs)
+        text = re.sub(r"[ \t]{2,}", " ", text)
         metadata = {
             "name": self._extract_name(text),
             "email": self._extract_email(text),
@@ -84,7 +98,7 @@ class MetadataExtractor:
                 and all(w[0].isupper() for w in words if w and w[0].isalpha())
             ):
                 return line
-        return "Unknown"
+        return None
 
     def _extract_email(self, text: str) -> Optional[str]:
         matches = self._email_re.findall(text)

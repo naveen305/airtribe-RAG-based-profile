@@ -115,7 +115,14 @@ class VectorStore:
 
     @staticmethod
     def _serialize_meta(meta: Dict[str, Any]) -> Dict[str, Any]:
-        return {
-            k: json.dumps(v) if isinstance(v, (list, dict)) else v
-            for k, v in meta.items()
-        }
+        result = {}
+        for k, v in meta.items():
+            if v is None:
+                continue  # ChromaDB doesn't accept None
+            elif isinstance(v, (list, dict)):
+                result[k] = json.dumps(v)
+            elif isinstance(v, (str, int, float, bool)):
+                result[k] = v
+            else:
+                result[k] = str(v)
+        return result

@@ -1,0 +1,12 @@
+Senior Frontend Engineer
+
+Looking for a Senior Frontend Developer with 8+ years of experience.
+
+Requirements:
+- JavaScript, React, Angular
+- HTML5, CSS3, Bootstrap
+- jQuery and single page applications
+- REST APIs integration
+- Python or PHP backend familiarity
+- Machine Learning or AI exposure is a plus
+- 8+ years of frontend development experience
