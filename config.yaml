@@ -1,0 +1,39 @@
+embedding:
+  provider: huggingface  # options: openai, cohere, huggingface
+  model:
+    openai: text-embedding-3-small
+    cohere: embed-english-v3.0
+    huggingface: sentence-transformers/all-MiniLM-L6-v2
+  batch_size: 32
+
+vector_store:
+  provider: chromadb
+  collection_name: resumes
+  persist_directory: ./chroma_db
+
+indexing:
+  chunk_size: 512
+  chunk_overlap: 50
+  supported_formats:
+    - .pdf
+    - .docx
+    - .txt
+
+search:
+  top_k: 10
+  semantic_weight: 0.7
+  keyword_weight: 0.3
+
+scoring:
+  semantic_weight: 0.7
+  skill_weight: 0.2
+  experience_weight: 0.1
+
+llm:
+  provider: anthropic
+  model: claude-opus-4-8
+  max_tokens: 2048
+
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

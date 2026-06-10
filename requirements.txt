@@ -1,0 +1,20 @@
+# Core
+anthropic>=0.40.0
+chromadb>=0.5.0
+PyYAML>=6.0
+
+# Document loaders
+pypdf>=4.0.0
+python-docx>=1.1.0
+
+# NLP
+regex>=2024.1.1
+
+# Embeddings
+openai>=1.0.0
+cohere>=5.0.0
+sentence-transformers>=3.0.0
+
+# Utilities
+numpy>=1.24.0
+tqdm>=4.66.0
