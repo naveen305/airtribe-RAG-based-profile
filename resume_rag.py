@@ -99,17 +99,24 @@ class ResumeProcessor:
 
         total_chunks = 0
         total_stored = 0
+        total_skipped = 0
 
         for resume in tqdm(resumes, desc="Indexing resumes"):
             result = self._index_resume(resume["file_path"], resume["text"])
             total_chunks += result["chunks"]
             total_stored += result["stored"]
+            total_skipped += result["skipped"]
 
         logger.info(f"INFO: Loaded {len(resumes)} resumes")
         logger.info(f"INFO: Generated {total_chunks} chunks")
-        logger.info(f"INFO: Stored {total_stored} vectors")
+        logger.info(f"INFO: Stored {total_stored} new vectors ({total_skipped} already indexed)")
 
-        return {"resumes": len(resumes), "chunks": total_chunks, "stored": total_stored}
+        return {
+            "resumes": len(resumes),
+            "chunks": total_chunks,
+            "stored": total_stored,
+            "skipped": total_skipped,
+        }
 
     def index_file(self, file_path: str) -> Dict[str, int]:
         try:
@@ -117,7 +124,7 @@ class ResumeProcessor:
             return self._index_resume(file_path, text)
         except Exception as e:
             logger.error(f"Failed to index '{file_path}': {e}")
-            return {"chunks": 0, "stored": 0}
+            return {"chunks": 0, "stored": 0, "skipped": 0}
 
     def _index_resume(self, file_path: str, text: str) -> Dict[str, int]:
         try:
@@ -127,7 +134,7 @@ class ResumeProcessor:
             chunks = self.chunker.chunk(text, candidate_name, file_path)
             if not chunks:
                 logger.warning(f"No chunks generated for {file_path}")
-                return {"chunks": 0, "stored": 0}
+                return {"chunks": 0, "stored": 0, "skipped": 0}
 
             documents = [c["content"] for c in chunks]
             embeddings = self.embedding_provider.embed(documents)
@@ -138,13 +145,16 @@ class ResumeProcessor:
                 meta.pop("content", None)
                 metadatas.append(meta)
 
-            stored = self.vector_store.add(documents, embeddings, metadatas)
-            logger.debug(f"{candidate_name}: {len(chunks)} chunks, {stored} stored")
-            return {"chunks": len(chunks), "stored": stored}
+            counts = self.vector_store.add(documents, embeddings, metadatas)
+            logger.debug(
+                f"{candidate_name}: {len(chunks)} chunks, "
+                f"{counts['stored']} stored, {counts['skipped']} already indexed"
+            )
+            return {"chunks": len(chunks), **counts}
 
         except Exception as e:
             logger.error(f"Failed to index '{file_path}': {e}")
-            return {"chunks": 0, "stored": 0}
+            return {"chunks": 0, "stored": 0, "skipped": 0}
 
 
 def load_config(config_path: str = "config.yaml") -> Dict[str, Any]:
@@ -201,11 +211,13 @@ def main() -> None:
             logger.error(f"Path not found: {args.index}")
             sys.exit(1)
 
+        skipped = results.get("skipped", 0)
+        skip_note = f", {skipped} already indexed" if skipped else ""
         print(
             f"\nIndexing complete — "
             f"{results.get('resumes', 1)} resume(s), "
             f"{results['chunks']} chunks, "
-            f"{results['stored']} vectors stored."
+            f"{results['stored']} new vectors stored{skip_note}."
         )
     else:
         parser.print_help()

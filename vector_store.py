@@ -31,9 +31,10 @@ class VectorStore:
         embeddings: List[List[float]],
         metadatas: List[Dict[str, Any]],
         ids: Optional[List[str]] = None,
-    ) -> int:
+    ) -> Dict[str, int]:
+        """Returns {"stored": N, "skipped": M} for caller reporting."""
         if not documents:
-            return 0
+            return {"stored": 0, "skipped": 0}
 
         if ids is None:
             ids = [
@@ -51,6 +52,8 @@ class VectorStore:
                 new_metas.append(self._serialize_meta(meta))
                 new_ids.append(id_)
 
+        skipped = len(documents) - len(new_docs)
+
         if new_docs:
             self.collection.add(
                 documents=new_docs,
@@ -58,13 +61,11 @@ class VectorStore:
                 metadatas=new_metas,
                 ids=new_ids,
             )
-            skipped = len(documents) - len(new_docs)
-            logger.info(
-                f"Stored {len(new_docs)} vectors "
-                f"({'skipped ' + str(skipped) + ' duplicates' if skipped else 'no duplicates'})"
-            )
+            logger.info(f"Stored {len(new_docs)} new vectors ({skipped} already indexed)")
+        else:
+            logger.info(f"All {skipped} vectors already indexed — nothing new to store")
 
-        return len(new_docs)
+        return {"stored": len(new_docs), "skipped": skipped}
 
     def search(
         self,

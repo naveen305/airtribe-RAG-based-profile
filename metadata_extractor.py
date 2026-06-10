@@ -98,10 +98,9 @@ class MetadataExtractor:
 
     def _extract_skills(self, text: str) -> List[str]:
         found: set = set()
-        text_lower = text.lower()
 
         for skill in SKILL_KEYWORDS:
-            if skill.lower() in text_lower:
+            if re.search(r"\b" + re.escape(skill) + r"\b", text, re.IGNORECASE):
                 found.add(skill)
 
         for abbr, full in SKILL_SYNONYMS.items():
